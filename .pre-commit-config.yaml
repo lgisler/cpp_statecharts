@@ -1,0 +1,77 @@
+repos:
+  - repo: https://github.com/executablebooks/mdformat
+    rev: 0.7.22
+    hooks:
+      - id: mdformat
+        args: [--number, --wrap, "100"]
+        additional_dependencies:
+          - mdformat-beautysh
+          - mdformat-black
+          - mdformat-config
+          - mdformat-frontmatter
+          - mdformat-footnote
+          - mdformat-gfm
+          - mdformat-gfm-alerts
+          - mdformat-pyproject
+          - mdformat-simple-breaks
+          - mdformat-toc
+          - mdformat-tables
+        language_version: python3.10
+
+  - repo: https://github.com/streetsidesoftware/cspell-cli
+    rev: v9.0.1
+    hooks:
+      - id: cspell # Spell check changed files
+      - id: cspell # Spell check the commit message
+        name: check commit message spelling
+        args:
+          - --no-must-find-files
+          - --no-progress
+          - --no-summary
+          - --files
+          - .git/COMMIT_EDITMSG
+        stages: [commit-msg]
+        always_run: true
+
+  - repo: local
+    hooks:
+      - id: sort-and-remove-duplicated-cspell-words
+        name: Sort and remove duplicated cspell words
+        entry: python3 ./pre-commit-hooks/sort-cspell-words.py
+        language: system
+        files: ^\.cspell\.yaml$
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+      - id: check-merge-conflict
+      - id: check-json
+      - id: debug-statements
+      - id: name-tests-test
+      - id: forbid-new-submodules
+
+  - repo: https://github.com/psf/black
+    rev: 25.1.0
+    hooks:
+      - id: black
+        language_version: python3
+
+  - repo: https://github.com/PyCQA/flake8
+    rev: 7.3.0
+    hooks:
+      - id: flake8
+
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v4.0.0-alpha.8
+    hooks:
+      - id: prettier
+        exclude: '^\.cspell.yaml$'
+
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
