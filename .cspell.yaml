@@ -2,12 +2,21 @@ version: '0.2'
 language: en
 words:
 - beautysh
+- cppcheck
+- cpplint
+- DCMAKE
 - EDITMSG
 - frontmatter
 - Gisler
+- Isrc
+- iwyu
 - lgisler
 - mdformat
+- oclint
 - pyenv
 - pyproject
 - statecharts
+- uncrustify
 - virtualenv
+- Werror
+- Wextra

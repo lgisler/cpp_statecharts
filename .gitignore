@@ -1,2 +1,5 @@
 .python-version
+build
+compile_commands.json
+defaults.cfg
 node_modules

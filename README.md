@@ -32,6 +32,22 @@ pyenv virtualenv 3.10 cpp_statecharts
 pyenv local cpp_statecharts
 ```
 
+### Addition cpp tooling (adjust for your system)
+
+[Install tooling](https://github.com/pocc/pre-commit-hooks?tab=readme-ov-file#installation)
+
+```bash
+brew install llvm cppcheck include-what-you-use
+```
+
+## Generating compile_commands.json
+
+[Install bear](https://github.com/rizsotto/Bear?tab=readme-ov-file#how-to-install)
+
+```bash
+
+```
+
 ## Running pre-commit
 
 ```bash
