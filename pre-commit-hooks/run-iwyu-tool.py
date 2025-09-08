@@ -27,8 +27,8 @@ def main():
             "To generate compile_commands.json, run one of the following:",
             "yellow",
         )
-        print("  - bear -- make")
         print("  - bear -- c++ -Isrc src/example_main.cpp -o example_main")
+        print("  - bear -- make")
         print("  - or use CMake with: cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON .")
         print("")
         colored_print("Install bear if not available:", "yellow")
