@@ -24,6 +24,8 @@ C++14 header only statecharts implementation with focus on simplicity of use and
 
 ## Development tooling
 
+- (required) [bazel](https://github.com/bazelbuild/bazel/)
+
 - (required) [clang-format](https://clang.llvm.org/docs/ClangFormat.html)
 
 - (required) [clang-tidy](https://clang.llvm.org/extra/clang-tidy/)
@@ -42,10 +44,10 @@ pyenv virtualenv 3.10 cpp_statecharts
 pyenv local cpp_statecharts
 ```
 
-- (recommended) [bear](https://github.com/rizsotto/Bear) - generate `compile_commands.json`
+## Generating the `compile_commands.json`
 
 ```bash
-bear -- c++ -Isrc src/example_main.cpp -o example_main
+bazel run @hedron_compile_commands//:refresh_all
 ```
 
 ## Running pre-commit

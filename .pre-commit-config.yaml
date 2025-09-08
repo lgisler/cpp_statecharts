@@ -34,20 +34,6 @@ repos:
         stages: [commit-msg]
         always_run: true
 
-  - repo: local
-    hooks:
-      - id: sort-and-remove-duplicated-cspell-words
-        name: Sort and remove duplicated cspell words
-        entry: pre-commit-hooks/sort-cspell-words.py
-        language: system
-        files: ^\.cspell\.yaml$
-      - id: cpp-header-check
-        name: Run IWYU tool with compile_commands.json
-        entry: pre-commit-hooks/run-iwyu-tool.py
-        language: python
-        types: [c++]
-        files: \.(cpp|hpp)$
-
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:
@@ -94,5 +80,34 @@ repos:
         args: [--style=Google, -i]
       - id: clang-tidy
         args: [--fix, --fix-errors]
-      - id: cppcheck
       - id: cpplint
+
+  - repo: local
+    hooks:
+      - id: sort-and-remove-duplicated-cspell-words
+        name: Sort and remove duplicated cspell words
+        entry: pre-commit-hooks/sort-cspell-words.py
+        language: system
+        files: ^\.cspell\.yaml$
+      - id: cppcheck
+        name: Run cppcheck with compile_commands.json
+        entry: cppcheck
+        language: system
+        pass_filenames: false
+        files: \.(cpp|hpp)$
+        exclude: ^tests?/
+        args:
+          - --enable=all
+          - --project=compile_commands.json
+          - --suppress=missingIncludeSystem
+          - --suppress=unmatchedSuppression
+          - -q
+          - --error-exitcode=1
+          - --clang
+      - id: cpp-header-check
+        name: Run IWYU tool with compile_commands.json
+        entry: iwyu_tool.py -p .
+        language: system
+        pass_filenames: false
+        files: \.(cpp|hpp)$
+        exclude: ^tests?/
