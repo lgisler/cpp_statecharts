@@ -81,6 +81,11 @@ repos:
       - id: clang-tidy
         args: [--fix, --fix-errors]
       - id: cpplint
+      - id: cppcheck
+        args: ["-Isrc/cpp_statecharts/include"]
+        files: \.cpp$
+      - id: include-what-you-use
+        args: ["-Isrc/cpp_statecharts/include"]
 
   - repo: local
     hooks:
@@ -89,25 +94,3 @@ repos:
         entry: pre-commit-hooks/sort-cspell-words.py
         language: system
         files: ^\.cspell\.yaml$
-      - id: cppcheck
-        name: Run cppcheck with compile_commands.json
-        entry: cppcheck
-        language: system
-        pass_filenames: false
-        files: \.(cpp|hpp)$
-        exclude: ^tests?/
-        args:
-          - --enable=all
-          - --project=compile_commands.json
-          - --suppress=missingIncludeSystem
-          - --suppress=unmatchedSuppression
-          - -q
-          - --error-exitcode=1
-          - --clang
-      - id: cpp-header-check
-        name: Run IWYU tool with compile_commands.json
-        entry: iwyu_tool.py -p .
-        language: system
-        pass_filenames: false
-        files: \.(cpp|hpp)$
-        exclude: ^tests?/

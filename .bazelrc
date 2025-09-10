@@ -13,6 +13,3 @@ build --cxxopt=-Wunused
 build --cxxopt=-Wconversion
 build --cxxopt=-Wsign-conversion
 build --cxxopt=-Wformat=2
-
-build:clang --action_env=CC=/usr/bin/clang
-build:clang --action_env=CXX=/usr/bin/clang++
