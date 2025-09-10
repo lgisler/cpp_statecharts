@@ -79,8 +79,16 @@ repos:
       - id: clang-format
         args: [--style=Google, -i]
       - id: clang-tidy
-        args: [--fix, --fix-errors]
+        args:
+          [
+            --fix,
+            --fix-errors,
+            "-header-filter=.*",
+            "-checks=*,-fuchsia-trailing-return,-boost-use-ranges,-llvmlibc-implementation-in-namespace",
+            -warnings-as-errors=*,
+          ]
       - id: cpplint
+        args: ["--filter=-build/header_guard"]
       - id: cppcheck
         args: ["-Isrc/cpp_statecharts/include"]
         files: \.cpp$

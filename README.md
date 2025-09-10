@@ -24,15 +24,15 @@ C++14 header only statecharts implementation with focus on simplicity of use and
 
 ## Development tooling
 
-- (required) [bazel](https://github.com/bazelbuild/bazel/)
-
 - (required) [clang-format](https://clang.llvm.org/docs/ClangFormat.html)
 
 - (required) [clang-tidy](https://clang.llvm.org/extra/clang-tidy/)
 
+- (required) [cpplint](https://github.com/cpplint/cpplint)
+
 - (required) [cppcheck](https://github.com/danmar/cppcheck)
 
-- (required) [cpplint](https://github.com/cpplint/cpplint)
+- (required) [include-what-you-use](https://github.com/include-what-you-use/include-what-you-use)
 
 - (required) [pre-commit](https://github.com/pre-commit/pre-commit)
 
@@ -44,12 +44,6 @@ pyenv virtualenv 3.10 cpp_statecharts
 pyenv local cpp_statecharts
 ```
 
-## Generating the `compile_commands.json`
-
-```bash
-bazel run @hedron_compile_commands//:refresh_all
-```
-
 ## Running pre-commit
 
 ```bash
@@ -57,3 +51,7 @@ pip install pre-commit
 pre-commit install
 pre-commit run --all-files
 ```
+
+## Troubleshooting tips
+
+Installing `include-what-you-use` might lead to trouble

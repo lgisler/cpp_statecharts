@@ -2,7 +2,7 @@
 
 #include <cpp_statecharts/cpp_statecharts.hpp>  // for State
 
-int main() {
+auto main() -> int {
   const auto state = cpp_statecharts::State{};
   return state.getState();
 }
