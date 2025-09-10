@@ -77,23 +77,31 @@ repos:
     rev: v1.3.5
     hooks:
       - id: clang-format
-        args: [--style=Google, -i]
+        args:
+          - -i
+          - --sort-includes
+          - --style=Google
       - id: clang-tidy
         args:
-          [
-            --fix,
-            --fix-errors,
-            "-header-filter=.*",
-            "-checks=*,-fuchsia-trailing-return,-boost-use-ranges,-llvmlibc-implementation-in-namespace",
-            -warnings-as-errors=*,
-          ]
+          - --fix
+          - --fix-errors
+          - --extra-arg=-std=c++17
+          - -header-filter=.*
+          - -checks=*,-fuchsia-trailing-return,-boost-use-ranges,-llvmlibc-implementation-in-namespace
+          - -warnings-as-errors=*
       - id: cpplint
-        args: ["--filter=-build/header_guard"]
+        args:
+          - --filter=-build/header_guard
+          - --includeorder=standardcfirst
+          - --linelength=100
       - id: cppcheck
-        args: ["-Isrc/cpp_statecharts/include"]
+        args:
+          - -Isrc/cpp_statecharts/include
+          - --std=c++17
         files: \.cpp$
       - id: include-what-you-use
-        args: ["-Isrc/cpp_statecharts/include"]
+        args:
+          - -Isrc/cpp_statecharts/include
 
   - repo: local
     hooks:
