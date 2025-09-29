@@ -1,4 +1,4 @@
-name: Cleanup github runner caches on closed pull requests
+name: Cleanup GitHub runner caches on closed pull requests
 on:
   pull_request:
     types:
