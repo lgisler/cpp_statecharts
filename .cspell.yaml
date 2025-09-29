@@ -17,6 +17,7 @@ words:
 - Isrc
 - iwyu
 - lgisler
+- libtinfo5
 - linelength
 - llvmlibc
 - mdformat
