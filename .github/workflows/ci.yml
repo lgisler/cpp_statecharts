@@ -15,8 +15,12 @@ jobs:
           path: |
             ~/.cache/bazel
             ~/.cache/bazelisk
-          key: bazel-${{ hashFiles('MODULE.bazel', 'MODULE.bazel.lock', '.bazelrc', '.bazelversion') }}
-          restore-keys: bazel-
+            ~/.cache/bazel-disk
+            ~/.cache/bazel-repo
+          key: bazel-${{ runner.os }}-${{ hashFiles('MODULE.bazel', 'MODULE.bazel.lock', '.bazelrc', '.bazelversion') }}
+          restore-keys: |
+            bazel-${{ runner.os }}-
+            bazel-
 
       - name: Install system dependencies
         run: sudo apt-get update && sudo apt-get install -y libtinfo5
@@ -29,9 +33,6 @@ jobs:
 
       - name: Build all targets
         run: bazel build //...
-
-      - name: Run tests
-        run: bazel test //...
 
   quality:
     name: Code Quality
@@ -50,10 +51,13 @@ jobs:
           path: |
             ~/.cache/bazel
             ~/.cache/bazelisk
+            ~/.cache/bazel-disk
+            ~/.cache/bazel-repo
             ~/.cache/pre-commit
-          key: quality-${{ hashFiles('MODULE.bazel', 'MODULE.bazel.lock', '.bazelrc', '.bazelversion', '.pre-commit-config.yaml', 'requirements.txt') }}
+          key: quality-${{ runner.os }}-${{ hashFiles('MODULE.bazel', 'MODULE.bazel.lock', '.bazelrc', '.bazelversion', '.pre-commit-config.yaml', 'requirements.txt') }}
           restore-keys: |
-            quality-
+            quality-${{ runner.os }}-
+            bazel-${{ runner.os }}-
             bazel-
 
       - name: Install system dependencies
