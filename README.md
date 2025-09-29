@@ -24,6 +24,10 @@ C++14 header only statecharts implementation with focus on simplicity of use and
 
 ## Development tooling
 
+- (required) [Bazel](https://bazel.build/) - build and test system
+
+- (recommended) [Bazelisk](https://github.com/bazelbuild/bazelisk) - Bazel version manager
+
 - (required) [clang-format](https://clang.llvm.org/docs/ClangFormat.html)
 
 - (required) [clang-tidy](https://clang.llvm.org/extra/clang-tidy/)
@@ -38,20 +42,28 @@ C++14 header only statecharts implementation with focus on simplicity of use and
 
 - (recommended) [pyenv](https://github.com/pyenv/pyenv) - isolate python environment
 
+## Building and testing with Bazel
+
+```bash
+bazel build //...
+bazel test //...
+```
+
+```bash
+# Generate compile_commands.json for IDE and tooling support
+bazel run @hedron_compile_commands//:refresh_all
+```
+
+## Running pre-commit
+
 ```bash
 pyenv install 3.10
 pyenv virtualenv 3.10 cpp_statecharts
 pyenv local cpp_statecharts
 ```
 
-## Running pre-commit
-
 ```bash
 pip install pre-commit
 pre-commit install
 pre-commit run --all-files
 ```
-
-## Troubleshooting tips
-
-Installing `include-what-you-use` might lead to trouble
