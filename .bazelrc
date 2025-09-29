@@ -1,0 +1,15 @@
+build --cxxopt=-std=c++17
+build --cxxopt=-g
+build --cxxopt=-O2
+build --cxxopt=-Wall
+build --cxxopt=-Wextra
+build --cxxopt=-Werror
+build --cxxopt=-pedantic
+build --cxxopt=-Wshadow
+build --cxxopt=-Wnon-virtual-dtor
+build --cxxopt=-Wold-style-cast
+build --cxxopt=-Wcast-align
+build --cxxopt=-Wunused
+build --cxxopt=-Wconversion
+build --cxxopt=-Wsign-conversion
+build --cxxopt=-Wformat=2
