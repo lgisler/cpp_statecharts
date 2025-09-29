@@ -17,19 +17,18 @@ jobs:
 
       - name: Install C++ tools and dependencies
         run: |
-          # Install C++ analysis tools
           sudo apt-get update
           sudo apt-get install -y cppcheck include-what-you-use
 
       - name: Set up Bazel
-        uses: bazel-contrib/setup-bazel@v0.8.1
+        uses: bazel-contrib/setup-bazel@0.15.0
         with:
-          # Optional: Pin to specific Bazel version
-          bazelisk-version: "1.22.1"
+          bazelisk-cache: true
+          disk-cache: ${{ github.workflow }}
+          repository-cache: true
 
       - name: Generate compilation database
         run: |
-          # Generate compile_commands.json for clang-tidy
           bazel run @hedron_compile_commands//:refresh_all
 
       - name: Install pre-commit and dependencies
