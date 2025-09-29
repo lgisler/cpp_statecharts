@@ -1,6 +1,8 @@
 version: '0.2'
 language: en
 words:
+- altera
+- bazelisk
 - beautysh
 - cppcheck
 - cpplint
@@ -16,6 +18,7 @@ words:
 - Isrc
 - iwyu
 - lgisler
+- libtinfo5
 - linelength
 - llvmlibc
 - mdformat

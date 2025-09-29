@@ -87,7 +87,11 @@ repos:
           - --fix-errors
           - --extra-arg=-std=c++17
           - -header-filter=.*
-          - -checks=*,-fuchsia-trailing-return,-boost-use-ranges,-llvmlibc-implementation-in-namespace
+          - -checks=*,
+            -boost-use-ranges,
+            -llvmlibc-*,
+            -altera-*,
+            -fuchsia-*
           - -warnings-as-errors=*
       - id: cpplint
         args:

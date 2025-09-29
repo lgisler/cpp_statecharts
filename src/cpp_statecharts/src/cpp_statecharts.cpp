@@ -4,8 +4,6 @@
 
 namespace cpp_statecharts {
 
-State::State() = default;
-
 auto State::getState() const -> int { return state_; }
 
 }  // namespace cpp_statecharts
