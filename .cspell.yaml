@@ -3,6 +3,7 @@ language: en
 words:
 - altera
 - bazelisk
+- bazelrc
 - beautysh
 - cppcheck
 - cpplint

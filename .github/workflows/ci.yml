@@ -1,0 +1,76 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: Build All Targets
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            /var/cache/apt/archives
+            ~/.cache/bazel
+            ~/.cache/bazelisk
+          key: ${{ runner.os }}-deps-${{ hashFiles('MODULE.bazel', 'MODULE.bazel.lock', '.bazelrc') }}
+          restore-keys: |
+            ${{ runner.os }}-deps-${{ hashFiles('MODULE.bazel', 'MODULE.bazel.lock') }}-
+            ${{ runner.os }}-deps-
+
+      - name: Install dependencies and setup Bazel
+        run: |
+          sudo apt-get update && sudo apt-get install -y libtinfo5
+
+      - uses: bazel-contrib/setup-bazel@0.15.0
+        with:
+          bazelisk-cache: true
+          disk-cache: ${{ github.workflow }}
+          repository-cache: true
+
+      - run: bazel build //...
+
+  quality:
+    name: Code Quality
+    runs-on: ubuntu-22.04
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+          cache: "pip"
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            /var/cache/apt/archives
+            ~/.cache/bazel
+            ~/.cache/bazelisk
+            ~/.cache/pre-commit
+          key: ${{ runner.os }}-quality-${{ hashFiles('MODULE.bazel', 'MODULE.bazel.lock', '.bazelrc', '.pre-commit-config.yaml', 'requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-quality-${{ hashFiles('MODULE.bazel', 'MODULE.bazel.lock', '.bazelrc') }}-
+            ${{ runner.os }}-deps-${{ hashFiles('MODULE.bazel', 'MODULE.bazel.lock', '.bazelrc') }}
+            ${{ runner.os }}-quality-
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update && sudo apt-get install -y cppcheck iwyu libtinfo5
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          pip install pre-commit
+
+      - uses: bazel-contrib/setup-bazel@0.15.0
+        with:
+          bazelisk-cache: true
+          disk-cache: ${{ github.workflow }}
+          repository-cache: true
+
+      - run: bazel run @hedron_compile_commands//:refresh_all
+      - run: pre-commit run --all-files --show-diff-on-failure
