@@ -93,7 +93,6 @@ repos:
             -altera-*,
             -fuchsia-*
           - -warnings-as-errors=*
-          - -warnings-as-errors=*
       - id: cpplint
         args:
           - --filter=-build/header_guard
