@@ -8,6 +8,7 @@ build --host_cxxopt=-std=c++17
 build --cxxopt=-Wall
 build --cxxopt=-Wextra
 build --cxxopt=-Werror
+build --cxxopt=-pedantic
 
 # Build modes
 build:debug --compilation_mode=dbg
