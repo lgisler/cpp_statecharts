@@ -7,7 +7,6 @@
 .idea/
 .python-version
 .vscode/
-MODULE.bazel.lock
 bazel-*
 build
 compile_commands.json
