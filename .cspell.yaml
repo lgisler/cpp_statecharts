@@ -4,6 +4,7 @@ words:
 - altera
 - bazelisk
 - bazelrc
+- bazelversion
 - beautysh
 - cppcheck
 - cpplint
