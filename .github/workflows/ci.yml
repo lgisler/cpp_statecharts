@@ -4,49 +4,38 @@ on: [push, pull_request]
 
 jobs:
   build:
-    name: Build All Targets
+    name: Build and Test
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
 
-      - name: Cache APT packages
-        uses: actions/cache@v4
-        with:
-          path: /var/cache/apt/archives
-          key: ${{ runner.os }}-apt-${{ hashFiles('**/*.yml') }}
-          restore-keys: |
-            ${{ runner.os }}-apt-
-
-      - name: Cache dependencies
+      - name: Cache Bazel
         uses: actions/cache@v4
         with:
           path: |
             ~/.cache/bazel
             ~/.cache/bazelisk
-          key: ${{ runner.os }}-deps-${{ hashFiles('MODULE.bazel', 'MODULE.bazel.lock', '.bazelrc', '.bazelversion') }}
-          restore-keys: |
-            ${{ runner.os }}-deps-${{ hashFiles('MODULE.bazel', 'MODULE.bazel.lock', '.bazelrc', '.bazelversion') }}-
-            ${{ runner.os }}-deps-${{ hashFiles('MODULE.bazel', 'MODULE.bazel.lock', '.bazelrc') }}-
-            ${{ runner.os }}-deps-
+          key: bazel-${{ hashFiles('MODULE.bazel', 'MODULE.bazel.lock', '.bazelrc', '.bazelversion') }}
+          restore-keys: bazel-
 
-      - name: Install dependencies and setup Bazel
-        run: |
-          sudo apt-get update && sudo apt-get install -y libtinfo5
-          # Fix APT cache permissions for GitHub Actions
-          sudo chown -R runner:runner /var/cache/apt/archives || true
+      - name: Install system dependencies
+        run: sudo apt-get update && sudo apt-get install -y libtinfo5
 
       - uses: bazel-contrib/setup-bazel@0.15.0
         with:
           bazelisk-cache: true
-          disk-cache: ${{ github.workflow }}-${{ github.job }}
+          disk-cache: ${{ github.workflow }}-build
           repository-cache: true
 
-      - run: bazel build //...
+      - name: Build all targets
+        run: bazel build //...
+
+      - name: Run tests
+        run: bazel test //...
 
   quality:
     name: Code Quality
     runs-on: ubuntu-22.04
-    needs: build
     steps:
       - uses: actions/checkout@v4
 
@@ -55,44 +44,35 @@ jobs:
           python-version: "3.10"
           cache: "pip"
 
-      - name: Cache APT packages
-        uses: actions/cache@v4
-        with:
-          path: /var/cache/apt/archives
-          key: ${{ runner.os }}-apt-quality-${{ hashFiles('**/*.yml') }}
-          restore-keys: |
-            ${{ runner.os }}-apt-quality-
-            ${{ runner.os }}-apt-
-
-      - name: Cache dependencies
+      - name: Cache Bazel and pre-commit
         uses: actions/cache@v4
         with:
           path: |
             ~/.cache/bazel
             ~/.cache/bazelisk
             ~/.cache/pre-commit
-          key: ${{ runner.os }}-quality-${{ hashFiles('MODULE.bazel', 'MODULE.bazel.lock', '.bazelrc', '.bazelversion', '.pre-commit-config.yaml', 'requirements.txt') }}
+          key: quality-${{ hashFiles('MODULE.bazel', 'MODULE.bazel.lock', '.bazelrc', '.bazelversion', '.pre-commit-config.yaml', 'requirements.txt') }}
           restore-keys: |
-            ${{ runner.os }}-quality-${{ hashFiles('MODULE.bazel', 'MODULE.bazel.lock', '.bazelrc', '.bazelversion', '.pre-commit-config.yaml', 'requirements.txt') }}-
-            ${{ runner.os }}-quality-${{ hashFiles('MODULE.bazel', 'MODULE.bazel.lock', '.bazelrc', '.bazelversion') }}-
-            ${{ runner.os }}-deps-${{ hashFiles('MODULE.bazel', 'MODULE.bazel.lock', '.bazelrc', '.bazelversion') }}-
-            ${{ runner.os }}-quality-
-            ${{ runner.os }}-deps-
+            quality-
+            bazel-
 
-      - name: Install dependencies
+      - name: Install system dependencies
+        run: sudo apt-get update && sudo apt-get install -y cppcheck iwyu libtinfo5
+
+      - name: Install Python dependencies
         run: |
-          sudo apt-get update && sudo apt-get install -y cppcheck iwyu libtinfo5
-          # Fix APT cache permissions for GitHub Actions
-          sudo chown -R runner:runner /var/cache/apt/archives || true
           python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          pip install -r requirements.txt
           pip install pre-commit
 
       - uses: bazel-contrib/setup-bazel@0.15.0
         with:
           bazelisk-cache: true
-          disk-cache: ${{ github.workflow }}-${{ github.job }}
+          disk-cache: ${{ github.workflow }}-quality
           repository-cache: true
 
-      - run: bazel run @hedron_compile_commands//:refresh_all
-      - run: pre-commit run --all-files --show-diff-on-failure
+      - name: Generate compile commands
+        run: bazel run @hedron_compile_commands//:refresh_all
+
+      - name: Run code quality checks
+        run: pre-commit run --all-files --show-diff-on-failure
