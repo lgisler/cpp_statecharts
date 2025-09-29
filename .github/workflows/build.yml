@@ -12,6 +12,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libtinfo5
+
       - name: Set up Bazel
         uses: bazel-contrib/setup-bazel@0.15.0
         with:
