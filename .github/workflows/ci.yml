@@ -9,19 +9,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Cache Bazel
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cache/bazel
-            ~/.cache/bazelisk
-            ~/.cache/bazel-disk
-            ~/.cache/bazel-repo
-          key: bazel-${{ runner.os }}-${{ hashFiles('MODULE.bazel', 'MODULE.bazel.lock', '.bazelrc', '.bazelversion') }}
-          restore-keys: |
-            bazel-${{ runner.os }}-
-            bazel-
-
       - name: Install system dependencies
         run: sudo apt-get update && sudo apt-get install -y libtinfo5
 
@@ -45,20 +32,12 @@ jobs:
           python-version: "3.10"
           cache: "pip"
 
-      - name: Cache Bazel and pre-commit
+      - name: Cache pre-commit
         uses: actions/cache@v4
         with:
-          path: |
-            ~/.cache/bazel
-            ~/.cache/bazelisk
-            ~/.cache/bazel-disk
-            ~/.cache/bazel-repo
-            ~/.cache/pre-commit
-          key: quality-${{ runner.os }}-${{ hashFiles('MODULE.bazel', 'MODULE.bazel.lock', '.bazelrc', '.bazelversion', '.pre-commit-config.yaml', 'requirements.txt') }}
-          restore-keys: |
-            quality-${{ runner.os }}-
-            bazel-${{ runner.os }}-
-            bazel-
+          path: ~/.cache/pre-commit
+          key: pre-commit-${{ runner.os }}-${{ hashFiles('.pre-commit-config.yaml') }}
+          restore-keys: pre-commit-${{ runner.os }}-
 
       - name: Install system dependencies
         run: sudo apt-get update && sudo apt-get install -y cppcheck iwyu libtinfo5
