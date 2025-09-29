@@ -1,0 +1,25 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: Build All Targets
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Bazel
+        uses: bazel-contrib/setup-bazel@v0.15.0
+        with:
+          bazelisk-cache: true
+          disk-cache: build
+          repository-cache: true
+
+      - name: Build all targets
+        run: bazel build //...
