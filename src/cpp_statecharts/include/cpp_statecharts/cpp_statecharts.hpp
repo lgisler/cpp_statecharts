@@ -7,7 +7,7 @@ namespace cpp_statecharts {
 
 class State {
  public:
-  explicit State() = default;
+  State() = default;
 
   [[nodiscard]] auto getState() const -> int;
 
