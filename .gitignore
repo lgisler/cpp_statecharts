@@ -1,4 +1,12 @@
+*.bin
+*.exe
+*.out
+*.swo
+*.swp
+*~
+.idea/
 .python-version
+.vscode/
 bazel-*
 build
 compile_commands.json

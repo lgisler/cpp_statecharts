@@ -1,15 +1,21 @@
+# Bazel configuration for cpp_statecharts
+
+# C++ standard
 build --cxxopt=-std=c++17
-build --cxxopt=-g
-build --cxxopt=-O2
+build --host_cxxopt=-std=c++17
+
+# Basic warnings
 build --cxxopt=-Wall
 build --cxxopt=-Wextra
 build --cxxopt=-Werror
-build --cxxopt=-pedantic
-build --cxxopt=-Wshadow
-build --cxxopt=-Wnon-virtual-dtor
-build --cxxopt=-Wold-style-cast
-build --cxxopt=-Wcast-align
-build --cxxopt=-Wunused
-build --cxxopt=-Wconversion
-build --cxxopt=-Wsign-conversion
-build --cxxopt=-Wformat=2
+
+# Build modes
+build:debug --compilation_mode=dbg
+build:release --compilation_mode=opt
+
+# Cache
+build --disk_cache=~/.cache/bazel-disk
+build --repository_cache=~/.cache/bazel-repo
+
+# Output
+build --verbose_failures
