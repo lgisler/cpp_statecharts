@@ -67,3 +67,16 @@ pip install pre-commit
 pre-commit install
 pre-commit run --all-files
 ```
+
+## Troubleshooting
+
+### include-what-you-use
+
+- Make sure you have generated the `compile_commands.json`
+
+`include-what-you-use` does not find the Clang built-in headers (stdarg.h and friends).
+
+- Install LLVM C++ Standard library (development files) (eg. `libc++-dev` or `libcxx-devel`)
+
+_Note:_ Long term solution would be to build `include-what-you-use` with bazel and then run the
+check thru bazel.

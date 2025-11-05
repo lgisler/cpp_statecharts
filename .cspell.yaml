@@ -20,6 +20,8 @@ words:
 - Isrc
 - iwyu
 - lgisler
+- libc
+- libcxx
 - libtinfo5
 - linelength
 - llvmlibc
@@ -30,6 +32,7 @@ words:
 - srcs
 - standardcfirst
 - statecharts
+- stdarg
 - uncrustify
 - virtualenv
 - Wcast
