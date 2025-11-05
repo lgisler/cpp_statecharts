@@ -1,6 +1,6 @@
 # cpp_statecharts
 
-C++14 header only statecharts implementation with focus on simplicity of use and readability.
+C++17 statecharts implementation with focus on simplicity of use and readability.
 
 ## Reference materials
 
