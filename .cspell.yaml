@@ -6,7 +6,10 @@ words:
 - bazelrc
 - bazelversion
 - beautysh
+- bugprone
+- Constexpr
 - cppcheck
+- cppcoreguidelines
 - cpplint
 - cxxopt
 - DCMAKE
@@ -16,6 +19,7 @@ words:
 - hdrs
 - hedron
 - Hedron's
+- hicpp
 - includeorder
 - Isrc
 - iwyu
