@@ -72,11 +72,15 @@ pre-commit run --all-files
 
 ### include-what-you-use
 
-- Make sure you have generated the `compile_commands.json`
-
-`include-what-you-use` does not find the Clang built-in headers (stdarg.h and friends).
+- `include-what-you-use` does not find the Clang built-in headers (stdarg.h and friends).
 
 - Install LLVM C++ Standard library (development files) (eg. `libc++-dev` or `libcxx-devel`)
 
-_Note:_ Long term solution would be to build `include-what-you-use` with bazel and then run the
-check thru bazel.
+- Ensure that the `resource-dir` exists and is not empty. See
+  [readme](https://github.com/include-what-you-use/include-what-you-use/blob/2c607255a30867d794d35d88f977f6e013ca54a8/README.md?plain=1#L174)
+
+_Note: A lazy fix is to copy the contents of `clang -print-resource-dir` to
+`include-what-you-use -print-resource-dir`_
+
+_Note: Long term solution would be to build `include-what-you-use` and other checkers as a bazel
+quality config._
