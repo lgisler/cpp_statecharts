@@ -17,5 +17,5 @@ enum class AcEvent : std::uint8_t {
 
 auto main() -> int {
   const auto state_chart = cpp_statecharts::StateChart<AcState, AcEvent>{};
-  return 0;
+  return static_cast<int>(state_chart.getState());
 }

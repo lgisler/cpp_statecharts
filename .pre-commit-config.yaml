@@ -85,6 +85,7 @@ repos:
       - id: clang-tidy
         args:
           - --fix
+          - --extra-arg=-Isrc/cpp_statecharts/include
           - --extra-arg=-std=c++17
       - id: cpplint
         args:
