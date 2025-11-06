@@ -72,7 +72,12 @@ pre-commit run --all-files
 
 ### clang-tidy
 
-- `clang-tidy` does not find the Clang build-in headers (stdarg.h and friends)
+- `clang-tidy` does not find the C++ system libraries
+
+- Ensure you have installed the same versions of `clang-tidy` and `clang`
+
+- Try removing the `compile_commands.json` there is a mismatch between the system `clang` and
+  `bazel` (TODO)
 
 ### include-what-you-use
 
