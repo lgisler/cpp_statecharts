@@ -61,8 +61,5 @@ jobs:
           disk-cache: ${{ github.workflow }}-quality
           repository-cache: true
 
-      - name: Generate compile commands
-        run: bazel run @hedron_compile_commands//:refresh_all
-
       - name: Run code quality checks
         run: pre-commit run --all-files --show-diff-on-failure

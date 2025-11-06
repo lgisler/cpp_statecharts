@@ -70,6 +70,10 @@ pre-commit run --all-files
 
 ## Troubleshooting
 
+### clang-tidy
+
+- `clang-tidy` does not find the Clang build-in headers (stdarg.h and friends)
+
 ### include-what-you-use
 
 - `include-what-you-use` does not find the Clang built-in headers (stdarg.h and friends).

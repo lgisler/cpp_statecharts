@@ -13,6 +13,7 @@ words:
 - cpplint
 - cxxopt
 - DCMAKE
+- devel
 - EDITMSG
 - frontmatter
 - Gisler
