@@ -2,10 +2,12 @@
 
 #include <cstdint>
 
-namespace {
-enum class ACState : std::uint8_t { OFF, COOLING, HEATING, FAN_ONLY };
+#include "cpp_statecharts/cpp_statecharts.hpp"
 
-enum class ACEvent : std::uint8_t {
+namespace {
+enum class AcState : std::uint8_t { OFF, COOLING, HEATING, FAN_ONLY };
+
+enum class AcEvent : std::uint8_t {
   POWER_TOGGLE,
   TEMP_UP,
   TEMP_DOWN,
@@ -13,4 +15,7 @@ enum class ACEvent : std::uint8_t {
 };
 }  // namespace
 
-auto main() -> int { return 0; }
+auto main() -> int {
+  const auto state_chart = cpp_statecharts::StateChart<AcState, AcEvent>{};
+  return 0;
+}
