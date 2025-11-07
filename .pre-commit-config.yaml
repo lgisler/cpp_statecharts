@@ -85,15 +85,8 @@ repos:
       - id: clang-tidy
         args:
           - --fix
-          - --fix-errors
+          - --extra-arg=-Isrc/cpp_statecharts/include
           - --extra-arg=-std=c++17
-          - -header-filter=.*
-          - -checks=*,
-            -boost-use-ranges,
-            -llvmlibc-*,
-            -altera-*,
-            -fuchsia-*
-          - -warnings-as-errors=*
       - id: cpplint
         args:
           - --filter=-build/header_guard

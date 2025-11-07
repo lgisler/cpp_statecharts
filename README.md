@@ -67,3 +67,29 @@ pip install pre-commit
 pre-commit install
 pre-commit run --all-files
 ```
+
+## Troubleshooting
+
+### clang-tidy
+
+- `clang-tidy` does not find the C++ system libraries
+
+- Ensure you have installed the same versions of `clang-tidy` and `clang`
+
+- Try removing the `compile_commands.json` there might be a mismatch between the system `clang` and
+  `bazel` (TODO)
+
+### include-what-you-use
+
+- `include-what-you-use` does not find the Clang built-in headers (stdarg.h and friends).
+
+- Install LLVM C++ Standard library (development files) (eg. `libc++-dev` or `libcxx-devel`)
+
+- Ensure that the `resource-dir` exists and is not empty. See
+  [readme](https://github.com/include-what-you-use/include-what-you-use/blob/2c607255a30867d794d35d88f977f6e013ca54a8/README.md?plain=1#L174)
+
+_Note: A lazy fix is to copy the contents of `clang -print-resource-dir` to
+`include-what-you-use -print-resource-dir`_
+
+_Note: Long term solution would be to build `include-what-you-use` and other checkers as a bazel
+quality config._
