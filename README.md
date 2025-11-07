@@ -76,7 +76,7 @@ pre-commit run --all-files
 
 - Ensure you have installed the same versions of `clang-tidy` and `clang`
 
-- Try removing the `compile_commands.json` there is a mismatch between the system `clang` and
+- Try removing the `compile_commands.json` there might be a mismatch between the system `clang` and
   `bazel` (TODO)
 
 ### include-what-you-use
